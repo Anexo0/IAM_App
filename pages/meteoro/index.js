@@ -1,0 +1,1 @@
+export { Meteorologia } from "./meteoro";

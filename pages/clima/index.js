@@ -1,0 +1,1 @@
+export { Clima } from "./clima";

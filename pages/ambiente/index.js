@@ -1,0 +1,1 @@
+export { Ambiente } from "./ambiente";
