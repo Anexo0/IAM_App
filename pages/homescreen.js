@@ -38,6 +38,7 @@ export function Homescreen() {
 
   return (
     <ImageBackground source={require('../assets/img/homescreen/estados/nublado.jpg')} style={styles.fondoImagen}>
+      
       <LinearGradient
         colors={['transparent', 'rgba(0,0,0,0.8)']}
         style={{ height: '100%', width: '100%', position: 'absolute' }}
@@ -81,9 +82,13 @@ export function Homescreen() {
         </TextTicker>
       </View>
 
+      <View style={styles.notificationBack}>
 
+      </View>
 
+      <View style={styles.notificationFront}>
 
+      </View>
     </ImageBackground>
   );
 }
@@ -166,6 +171,21 @@ const styles = StyleSheet.create({
   },
   botoneraLateral: {
     width: '45%',
+  },
+  notificationBack: {
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    backgroundColor: '#302c2caf'
+  },
+
+  notificationFront: {
+    position: 'absolute',
+    top: '20%',
+    left: '10%',
+    width: '80%',
+    height: '60%',
+    backgroundColor: '#ffffffff'
   }
 
 });
