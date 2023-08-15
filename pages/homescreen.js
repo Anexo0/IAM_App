@@ -185,7 +185,7 @@ const styles = StyleSheet.create({
     left: '10%',
     width: '80%',
     height: '60%',
-    backgroundColor: '#7e7e7eff'
+    backgroundColor: '#ffffffff'
   }
 
 });
