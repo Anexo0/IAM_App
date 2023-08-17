@@ -1,4 +1,4 @@
-import { Text, View, StyleSheet, Image, ImageBackground, ScrollView, Linking } from 'react-native';
+import { Text, View, StyleSheet, Image, ImageBackground, ScrollView, Linking, Button, TouchableHighlight } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import React, { useState, useEffect } from 'react';
 import { Dimensions } from 'react-native';
@@ -87,7 +87,25 @@ export function Homescreen() {
       </View>
 
       <View style={styles.notificationFront}>
+        <Text style={styles.notificationText1}>
+          Deseas Recibir Notificaciones De Los Siguientes Estados
+        </Text>
+        <ScrollView style={styles.notificationScroll}>
+          <Text>
+            dfafasfa
+          </Text>
+        </ScrollView>
+        <Text style={styles.notificationText2}>
+          Para Desactivar Notificacion Puedes Cambiarlo En Configuraciones
+        </Text>
+        <View style={styles.notificationViewButtons}>
+         <Button title='Sdad'>
 
+         </Button>  
+         <Button title='Sdad'>
+
+         </Button>  
+        </View>
       </View>
     </ImageBackground>
   );
@@ -163,6 +181,7 @@ const styles = StyleSheet.create({
 
   },
   botonera: {
+    flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: windowWidth,
@@ -178,7 +197,6 @@ const styles = StyleSheet.create({
     height: '100%',
     backgroundColor: '#302c2caf'
   },
-
   notificationFront: {
     position: 'absolute',
     top: '20%',
@@ -186,7 +204,25 @@ const styles = StyleSheet.create({
     width: '80%',
     height: '60%',
     backgroundColor: '#ffffffff'
-  }
+  },
+  notificationText1: {
+    height: '10%',
+    backgroundColor: "#00000055",
+  },
+  notificationText2: {
+    height: '10%',
+    backgroundColor: "#00000055",
+  },
+  notificationScroll: {
+    
+  },
+  notificationViewButtons:{
+    paddingHorizontal: '20%',
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    backgroundColor: '#00000022',
+  },
 
 });
 function walkNRows(pointer, body, n){
