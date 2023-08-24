@@ -4,17 +4,38 @@ import React, { useState, useEffect } from 'react';
 import { Dimensions } from 'react-native';
 import { BotonImagen } from '../myModules/boton';
 import TextTicker from 'react-native-text-ticker';
-
+import {normFS} from '../myModules/normalize_font.js'
+import Checkbox from 'react-native-modest-checkbox';
 
 
 
 const windowWidth = Dimensions.get('window').width;
 
+
+
 export function Homescreen() {
+  const [showNotif, setNotif] = useState(true)
   const win = Dimensions.get('window');
+  const [gdl, setGdl] = useState(false)
+  const [zap, setZap] = useState(false)
+  const [tlaj, setTlaj] = useState(false)
+  const [tlaq, setTlaq] = useState(false)
+  const [ton, setTon] = useState(false)
+  const [salto, setSalto] = useState(false)
+  const [ixt, setIxt] = useState(false)
+  const CheckStates = {
+    Guadalajara: [gdl, setGdl],
+    Zapopan: [zap, setZap],
+    Tlajomulco: [tlaj, setTlaj],
+    Tlaquepaque: [tlaq, setTlaq],
+    Tonala: [ton, setTon],
+    El_Salto: [salto, setSalto],
+    Ixtlahuacan_de_los_Membrillos: [ixt, setIxt]
+  }
+
+  const [test, setTest] = useState(false)
   const ratioQci = win.width/2068; //800 is actual image width
   const ratioIam = win.width/1216; //800 is actual image width
-
   const [pronost, setPronost] = useState(
     {
       "fecha": "",
@@ -22,8 +43,35 @@ export function Homescreen() {
       "estado": "",
     }
   );
-  useEffect(() => {
+  const municipios = [
+    "Guadalajara",
+    "Zapopan",
+    "Tlajomulco",
+    "Tlaquepaque",
+    "Tonala",
+    "El Salto",
+    "Ixtlahuacan de los Membrillos",
+  ];
+  let municipiosChecks = [];
 
+  municipios.forEach((item, i) => {
+    municipiosChecks.push(
+      <Checkbox
+            containerStyle={styles.notificationChecksContainer}
+            checkboxStyle={styles.notificationChecks}
+            labelStyle={styles.notificationCheckLabels}
+            label={item}
+            checked={CheckStates[item.replaceAll(" ", "_")][0]}
+            onChange={c => {
+              CheckStates[c.label.replaceAll(" ", "_")][1](c.checked)
+              }}
+      >
+
+      </Checkbox>
+    )
+  })
+
+  useEffect(() => {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
       if (this.readyState == 4 && this.status == 200) {
@@ -38,7 +86,6 @@ export function Homescreen() {
 
   return (
     <ImageBackground source={require('../assets/img/homescreen/estados/nublado.jpg')} style={styles.fondoImagen}>
-      
       <LinearGradient
         colors={['transparent', 'rgba(0,0,0,0.8)']}
         style={{ height: '100%', width: '100%', position: 'absolute' }}
@@ -82,31 +129,37 @@ export function Homescreen() {
         </TextTicker>
       </View>
 
-      <View style={styles.notificationBack}>
-
-      </View>
-
-      <View style={styles.notificationFront}>
-        <Text style={styles.notificationText1}>
-          Deseas Recibir Notificaciones De Los Siguientes Estados
-        </Text>
-        <ScrollView style={styles.notificationScroll}>
-          <Text>
-            dfafasfa
+      {showNotif ? 
+        <View style={styles.notificationBack}>
+          <View style={styles.notificationFront}>
+          <Text style={styles.notificationText1}>
+            Deseas Recibir Notificaciones De Los Siguientes Estados
           </Text>
-        </ScrollView>
-        <Text style={styles.notificationText2}>
-          Para Desactivar Notificacion Puedes Cambiarlo En Configuraciones
-        </Text>
-        <View style={styles.notificationViewButtons}>
-         <Button title='Sdad'>
-
-         </Button>  
-         <Button title='Sdad'>
-
-         </Button>  
+          <ScrollView style={styles.notificationScrollView} >
+            {municipiosChecks}
+          </ScrollView>
+          <Text style={styles.notificationText2}>
+            Para Desactivar Notificacion Puedes Cambiarlo En Configuraciones
+          </Text>
+          <View style={styles.notificationViewButtons}>
+          <TouchableHighlight style={styles.notificationTButton1} onPress={() => 
+            setNotif(false)
+          }>
+            <Text>
+              Decline
+            </Text>
+          </TouchableHighlight>
+          <TouchableHighlight style={styles.notificationTButton2}>
+            <Text>
+              Accept
+            </Text>
+          </TouchableHighlight> 
+          </View>
+          
+          </View>  
         </View>
-      </View>
+      : null
+      }
     </ImageBackground>
   );
 }
@@ -198,23 +251,28 @@ const styles = StyleSheet.create({
     backgroundColor: '#302c2caf'
   },
   notificationFront: {
+    padding: 10,
     position: 'absolute',
     top: '20%',
     left: '10%',
     width: '80%',
     height: '60%',
-    backgroundColor: '#ffffffff'
+    backgroundColor: '#ffffffff',
+    borderRadius: 15,
   },
   notificationText1: {
     height: '10%',
-    backgroundColor: "#00000055",
+    fontSize: normFS(18),
+    textAlign: 'center',
   },
   notificationText2: {
-    height: '10%',
-    backgroundColor: "#00000055",
+    height: '15%',
+    fontSize: normFS(18),
+    textAlign: 'center',
   },
-  notificationScroll: {
-    
+  notificationScrollView: {
+    borderColor: '#0000ff',
+    borderWidth: 1,
   },
   notificationViewButtons:{
     paddingHorizontal: '20%',
@@ -222,6 +280,43 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     backgroundColor: '#00000022',
+  },
+  notificationTButton1: {
+    
+    backgroundColor: '#00000055',
+  },
+  notificationTButton2: {
+    backgroundColor: '#00000055',
+  },
+  notificationChecks: {
+    width: '20%',
+    height: '10%'
+  },
+  notificationTexts: {
+    width: '20%',
+    height: '10%'
+  },
+  notificationChecks: {
+    borderColor: '#ff0000',
+    borderWidth: 1,
+    width: '20%',
+    height: '90%'
+  },
+  notificationChecksContainer: {
+    borderColor: '#000000',
+    borderWidth: 1,
+    flex: 1,
+    width: '100%',
+    height: 70,
+  },
+  notificationCheckLabels: {
+    borderColor: '#00ff00',
+    borderWidth: 1,
+    fontSize: normFS(15),
+    textAlignVertical: 'center',
+    color: '#000000',
+    width: '100%',
+    height: '50%',
   },
 
 });
