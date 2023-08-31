@@ -57,6 +57,7 @@ export function Homescreen() {
   municipios.forEach((item, i) => {
     municipiosChecks.push(
       <Checkbox
+            key={i}
             containerStyle={styles.notificationChecksContainer}
             checkboxStyle={styles.notificationChecks}
             labelStyle={styles.notificationCheckLabels}
@@ -142,15 +143,15 @@ export function Homescreen() {
             Para Desactivar Notificacion Puedes Cambiarlo En Configuraciones
           </Text>
           <View style={styles.notificationViewButtons}>
-          <TouchableHighlight style={styles.notificationTButton1} onPress={() => 
+          <TouchableHighlight style={styles.notificationButtons} onPress={() => 
             setNotif(false)
           }>
-            <Text>
+            <Text style={styles.notificationButtonText}>
               Decline
             </Text>
           </TouchableHighlight>
-          <TouchableHighlight style={styles.notificationTButton2}>
-            <Text>
+          <TouchableHighlight style={styles.notificationButtons}>
+          <Text style={styles.notificationButtonText}>
               Accept
             </Text>
           </TouchableHighlight> 
@@ -261,62 +262,65 @@ const styles = StyleSheet.create({
     borderRadius: 15,
   },
   notificationText1: {
+    marginVertical: '5%',
     height: '10%',
     fontSize: normFS(18),
     textAlign: 'center',
   },
   notificationText2: {
-    height: '15%',
+    marginTop: '2%',
+    height: '11%',
     fontSize: normFS(18),
     textAlign: 'center',
   },
   notificationScrollView: {
-    borderColor: '#0000ff',
+    marginHorizontal: '5%',
+    backgroundColor: '#b8b7b7',
+    borderColor: '#000000ff',
     borderWidth: 1,
+    borderRadius: 10,
   },
   notificationViewButtons:{
-    paddingHorizontal: '20%',
+    paddingHorizontal: '10%',
     width: '100%',
+    height: '8%',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    backgroundColor: '#00000022',
   },
-  notificationTButton1: {
-    
-    backgroundColor: '#00000055',
+  notificationButtons: {
+    height: '100%',
+    width: '40%',
+    backgroundColor: '#8d898955',
+    justifyContent: 'center',
+    borderRadius: 10,
   },
-  notificationTButton2: {
-    backgroundColor: '#00000055',
-  },
-  notificationChecks: {
-    width: '20%',
-    height: '10%'
+  notificationButtonText: {
+    fontWeight: 'bold',
+    fontSize: normFS(18),
+    textAlign: 'center',
   },
   notificationTexts: {
     width: '20%',
     height: '10%'
   },
   notificationChecks: {
-    borderColor: '#ff0000',
-    borderWidth: 1,
-    width: '20%',
-    height: '90%'
+    marginLeft: 10,
+    width: '15%',
+    height: '60%',
+    resizeMode: 'contain',
   },
   notificationChecksContainer: {
-    borderColor: '#000000',
-    borderWidth: 1,
     flex: 1,
     width: '100%',
-    height: 70,
+    height: 60,
   },
   notificationCheckLabels: {
-    borderColor: '#00ff00',
-    borderWidth: 1,
     fontSize: normFS(15),
+    fontWeight: 'bold',
     textAlignVertical: 'center',
-    color: '#000000',
+    color: '#ffffff',
     width: '100%',
-    height: '50%',
+    height: '100%',
   },
 
 });
