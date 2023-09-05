@@ -23,6 +23,7 @@ export function Homescreen() {
   const [ton, setTon] = useState(false)
   const [salto, setSalto] = useState(false)
   const [ixt, setIxt] = useState(false)
+  const [anyChecked, setAnyChecked] = useState(false)
   const CheckStates = {
     Guadalajara: [gdl, setGdl],
     Zapopan: [zap, setZap],
@@ -65,6 +66,7 @@ export function Homescreen() {
             checked={CheckStates[item.replaceAll(" ", "_")][0]}
             onChange={c => {
               CheckStates[c.label.replaceAll(" ", "_")][1](c.checked)
+              checkIfAnyChecked(c)
               }}
       >
 
@@ -84,6 +86,31 @@ export function Homescreen() {
     xhttp.send(null);
   }, [])
 
+  const clearChecks = () => {
+    for (const [key, value] of Object.entries(CheckStates)){
+      value[1](false)
+    }
+    setAnyChecked(false)
+  }
+  const checkIfAnyChecked = (c) => {
+    let isAny = false
+    for (const [key, value] of Object.entries(CheckStates)){
+      if (key == c.label){
+        if (c.checked){
+          isAny = true
+          break
+        }
+      }
+      else if (value[0]){
+        isAny = true
+        break
+      }
+    }
+    console.log(c)
+    console.log("is any ",isAny, "check ", c.checked)
+    setAnyChecked(isAny ? true : false)
+    console.log(anyChecked)
+  }
 
   return (
     <ImageBackground source={require('../assets/img/homescreen/estados/nublado.jpg')} style={styles.fondoImagen}>
@@ -140,19 +167,30 @@ export function Homescreen() {
             {municipiosChecks}
           </ScrollView>
           <Text style={styles.notificationText2}>
-            Para Desactivar Notificacion Puedes Cambiarlo En Configuraciones
+            Para Desactivar Notificaciones  Puedes Cambiarlo En Configuraciones
+          
+
           </Text>
           <View style={styles.notificationViewButtons}>
-          <TouchableHighlight style={styles.notificationButtons} onPress={() => 
-            setNotif(false)
-          }>
+          <TouchableHighlight 
+            style={styles.notificationButtons} 
+            underlayColor={'#00000044'}  
+            onPress={() => 
+              null
+            }>
             <Text style={styles.notificationButtonText}>
-              Decline
+              Acceptar
             </Text>
           </TouchableHighlight>
-          <TouchableHighlight style={styles.notificationButtons}>
+          <TouchableHighlight 
+            style={styles.notificationButtons} 
+            underlayColor={'#00000044'} 
+            onPress={() => {
+              //setNotif(false)
+              clearChecks()
+            }}>
           <Text style={styles.notificationButtonText}>
-              Accept
+              {anyChecked ? "Clear" : "Rechazar"}
             </Text>
           </TouchableHighlight> 
           </View>
@@ -165,27 +203,7 @@ export function Homescreen() {
   );
 }
 
-function getGDLPronostico(bodyHTML) {
-  let json = {
-    "fecha": "",
-    "pronostico": "",
-    "estado": "",
-  };
-  let pointer = 0;
-  pointer = walkNRows(pointer, bodyHTML, 3);
-  pointer = walkNCells(pointer, bodyHTML, 2);
-  json.fecha = getInnerText(pointer, bodyHTML);
 
-  pointer = bodyHTML.indexOf('ÁREA METROPOLITANA DE GUADALAJARA');
-  pointer = walkNRows(pointer, bodyHTML, 1);
-  pointer = walkNCells(pointer, bodyHTML, 3);
-  json.pronostico = getInnerText(pointer, bodyHTML);
-  if (json.pronostico.length < 100) {
-    json.pronostico += "    " + json.pronostico;
-  }
-
-  return json;
-}
 
 
 
@@ -310,6 +328,8 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
   notificationChecksContainer: {
+    borderWidth: 1,
+    borderColor: '#676767bb',
     flex: 1,
     width: '100%',
     height: 60,
@@ -324,6 +344,29 @@ const styles = StyleSheet.create({
   },
 
 });
+
+function getGDLPronostico(bodyHTML) {
+  let json = {
+    "fecha": "",
+    "pronostico": "",
+    "estado": "",
+  };
+  let pointer = 0;
+  pointer = walkNRows(pointer, bodyHTML, 3);
+  pointer = walkNCells(pointer, bodyHTML, 2);
+  json.fecha = getInnerText(pointer, bodyHTML);
+
+  pointer = bodyHTML.indexOf('ÁREA METROPOLITANA DE GUADALAJARA');
+  pointer = walkNRows(pointer, bodyHTML, 1);
+  pointer = walkNCells(pointer, bodyHTML, 3);
+  json.pronostico = getInnerText(pointer, bodyHTML);
+  if (json.pronostico.length < 100) {
+    json.pronostico += "    " + json.pronostico;
+  }
+
+  return json;
+}
+
 function walkNRows(pointer, body, n){
   const reRow = /<tr.*>/i;
   for(let i = 0; i < n; i++){
@@ -331,6 +374,7 @@ function walkNRows(pointer, body, n){
   }
   return pointer;
 }
+
 function walkNCells(pointer, body, n){
   const reOpenTag = /<t[d].*>/i;
   for(let i = 0; i < n; i++){
@@ -357,3 +401,4 @@ function regexIndexOf(string, regex, startpos) {
   var indexOf = string.substring(startpos || 0).search(regex);
   return (indexOf >= 0) ? (indexOf + (startpos || 0)) : indexOf;
 }
+
