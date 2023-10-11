@@ -6,7 +6,7 @@ import { BotonImagen } from '../myModules/boton';
 import TextTicker from 'react-native-text-ticker';
 import {normFS} from '../myModules/normalize_font.js'
 import Checkbox from 'react-native-modest-checkbox';
-
+import {Settings} from './notification-settings';
 
 
 const windowWidth = Dimensions.get('window').width;
@@ -34,7 +34,7 @@ export function Homescreen() {
     Ixtlahuacan_de_los_Membrillos: [ixt, setIxt]
   }
 
-  const [test, setTest] = useState(false)
+  //const [test, setTest] = useState(false)
   const ratioQci = win.width/2068; //800 is actual image width
   const ratioIam = win.width/1216; //800 is actual image width
   const [pronost, setPronost] = useState(
@@ -44,6 +44,10 @@ export function Homescreen() {
       "estado": "",
     }
   );
+
+  const settings = new Settings();
+  
+
   const municipios = [
     "Guadalajara",
     "Zapopan",
@@ -84,7 +88,13 @@ export function Homescreen() {
     };
     xhttp.open("GET", "https://docs.google.com/spreadsheets/d/e/2PACX-1vSrEqu9owc9-mk2jT8dzATmxWtgxwdwD6BhHU4vSq3kJuaCXTH-WVkYPhaQ4g-wQQ/pubhtml");
     xhttp.send(null);
+
+    //notif
   }, [])
+
+  const saveSettings = () => {
+    
+  }
 
   const clearChecks = () => {
     for (const [key, value] of Object.entries(CheckStates)){
@@ -161,14 +171,13 @@ export function Homescreen() {
         <View style={styles.notificationBack}>
           <View style={styles.notificationFront}>
           <Text style={styles.notificationText1}>
-            Deseas Recibir Notificaciones De Los Siguientes Estados
+            ¿Desea recibir notificaciones de las siguientes localidades?
           </Text>
           <ScrollView style={styles.notificationScrollView} >
             {municipiosChecks}
           </ScrollView>
           <Text style={styles.notificationText2}>
-            Para Desactivar Notificaciones  Puedes Cambiarlo En Configuraciones
-          
+            Ajuste de notificaciones puede ser cambiado en configuraciones
 
           </Text>
           <View style={styles.notificationViewButtons}>
@@ -179,7 +188,7 @@ export function Homescreen() {
               null
             }>
             <Text style={styles.notificationButtonText}>
-              Acceptar
+              Aceptar
             </Text>
           </TouchableHighlight>
           <TouchableHighlight 
@@ -190,7 +199,7 @@ export function Homescreen() {
               clearChecks()
             }}>
           <Text style={styles.notificationButtonText}>
-              {anyChecked ? "Clear" : "Rechazar"}
+              {anyChecked ? "Limpiar" : "Rechazar"}
             </Text>
           </TouchableHighlight> 
           </View>
@@ -288,7 +297,7 @@ const styles = StyleSheet.create({
   notificationText2: {
     marginTop: '2%',
     height: '11%',
-    fontSize: normFS(18),
+    fontSize: normFS(15),
     textAlign: 'center',
   },
   notificationScrollView: {
